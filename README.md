@@ -129,7 +129,10 @@ an environment variable group named `pokopia` and add a **secret** `NUP_URL`
 containing a direct HTTPS download URL for your private NUP. The build server
 cannot read a path on your Mac. Keep the NUP and its URL out of GitHub.
 The workflow validates the downloaded NUP before installing dependencies and
-retries incomplete or invalid transfers, with at most three download attempts.
+retries incomplete transfers from the last received byte, with at most three
+download attempts. The private server must support HTTP byte ranges (206
+responses). Each fresh Codemagic build still needs to fetch the NUP; its 7.1 GB
+size exceeds the 3 GB dependency cache available on personal accounts.
 
 Scan branch `main` for the configuration, then manually start `pokopia-ios`.
 Download the IPA from the build's artifacts; build logs are also collected.

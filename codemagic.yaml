@@ -15,7 +15,7 @@ workflows:
           mkdir -p "$CM_BUILD_DIR/../pokopia/input"
           for attempt in 1 2 3; do
             echo "Downloading NUP (attempt $attempt/3)"
-            if curl --fail --silent --show-error --location --retry 3 \
+            if curl --fail --silent --show-error --location --continue-at - \
               --proto '=https' --proto-redir '=https' \
               --output "$CM_BUILD_DIR/../pokopia/input/Pokopia.nup.part" "$NUP_URL" &&
               PYTHONPATH="$CM_BUILD_DIR/scripts" python3 -c \

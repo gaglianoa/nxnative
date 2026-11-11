@@ -4,6 +4,8 @@
 
 ### Fixed
 
+- Resume incomplete NUP downloads instead of retransferring the whole game
+  when the download server supports HTTP byte ranges.
 - Validate downloaded NUP containers before building, retrying incomplete
   transfers up to three times.
 - Install the separate Metal Toolchain component before compiling shaders on
