@@ -120,6 +120,21 @@ python3 scripts/build_ipa_from_nsp.py ~/Games/DonkeyKongBananza --platform mac-a
 
 An update's folder alone will do (no `base/`), and so will `exefs/` and `romfs/` directly in the folder, as `nup extract` writes them, which count as `base/`. The app has no icon, because the folder holds none; `--icon <image>` (`ICON` in Spyder) gives it one. To turn such a folder into a NUP: `nup pack ~/Games/DonkeyKongBananza game.nup`.
 
+### Pokopia iOS build on Codemagic
+
+This fork's `codemagic.yaml` builds an unsigned Pokémon Pokopia 2.0.1 IPA
+with Xcode 27.2 using the existing NUP build script. In Codemagic, create
+an environment variable group named `pokopia` and add a **secret** `NUP_URL`
+containing a direct HTTPS download URL for your private NUP. The build server
+cannot read a path on your Mac. Keep the NUP and its URL out of GitHub.
+
+Scan branch `main` for the configuration, then manually start `pokopia-ios`.
+Download the IPA from the build's artifacts; build logs are also collected.
+There is no App Store publishing or device installation. Pokopia has only
+been tested on Mac; producing an IPA does not establish that it runs on iOS.
+The full shader build can exceed the workflow's 120-minute timeout; check your
+Codemagic plan's build-duration limit before starting a full build.
+
 ## Discussions
 
 Questions, how a game runs on your Mac or iPhone, and ideas go in [Discussions](https://github.com/seedds/nxnative/discussions); [Issues](https://github.com/seedds/nxnative/issues) are for bugs, with the log. Ocarina of Time's performance (frame rate, resolution, which Macs hold 60 fps) is followed in [Ocarina of Time: state on main](https://github.com/seedds/nxnative/discussions/1789).
