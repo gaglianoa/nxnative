@@ -123,7 +123,8 @@ An update's folder alone will do (no `base/`), and so will `exefs/` and `romfs/`
 ### Pokopia iOS build on Codemagic
 
 This fork's `codemagic.yaml` builds an unsigned Pokémon Pokopia 2.0.1 IPA
-with Xcode 27.2 using the existing NUP build script. In Codemagic, create
+with Xcode 27.2 using the existing NUP build script. The workflow installs the
+separate Metal Toolchain component before checking the compiler. In Codemagic, create
 an environment variable group named `pokopia` and add a **secret** `NUP_URL`
 containing a direct HTTPS download URL for your private NUP. The build server
 cannot read a path on your Mac. Keep the NUP and its URL out of GitHub.

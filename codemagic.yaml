@@ -26,6 +26,7 @@ workflows:
           "$CM_BUILD_DIR/.venv/bin/python" -m pip install \
             -r "$CM_BUILD_DIR/.github/requirements/tools.txt" backports.zstd
           xcrun --sdk iphoneos --show-sdk-path
+          xcodebuild -downloadComponent MetalToolchain
           xcrun --sdk iphoneos metal --version
       - name: Build the unsigned IPA
         script: |

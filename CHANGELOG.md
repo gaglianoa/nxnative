@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Fixed
+
+- Install the separate Metal Toolchain component before compiling shaders on
+  Codemagic runners.
+
 ### Added
 
 - A manually started Codemagic workflow for an experimental unsigned Pokémon
