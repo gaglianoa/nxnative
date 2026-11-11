@@ -4,6 +4,8 @@
 
 ### Fixed
 
+- Validate downloaded NUP containers before building, retrying incomplete
+  transfers up to three times.
 - Install the separate Metal Toolchain component before compiling shaders on
   Codemagic runners.
 

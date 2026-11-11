@@ -13,11 +13,21 @@ workflows:
           set -euo pipefail
           : "${NUP_URL:?Set the secret NUP_URL in the pokopia environment group}"
           mkdir -p "$CM_BUILD_DIR/../pokopia/input"
-          curl --fail --silent --show-error --location --retry 3 \
-            --proto '=https' --proto-redir '=https' \
-            --output "$CM_BUILD_DIR/../pokopia/input/Pokopia.nup.part" "$NUP_URL"
-          mv "$CM_BUILD_DIR/../pokopia/input/Pokopia.nup.part" \
-            "$CM_BUILD_DIR/../pokopia/input/Pokopia.nup"
+          for attempt in 1 2 3; do
+            echo "Downloading NUP (attempt $attempt/3)"
+            if curl --fail --silent --show-error --location --retry 3 \
+              --proto '=https' --proto-redir '=https' \
+              --output "$CM_BUILD_DIR/../pokopia/input/Pokopia.nup.part" "$NUP_URL" &&
+              PYTHONPATH="$CM_BUILD_DIR/scripts" python3 -c \
+                'import sys; from pack_nup import Nup; Nup(sys.argv[1]).close()' \
+                "$CM_BUILD_DIR/../pokopia/input/Pokopia.nup.part"; then
+              mv "$CM_BUILD_DIR/../pokopia/input/Pokopia.nup.part" \
+                "$CM_BUILD_DIR/../pokopia/input/Pokopia.nup"
+              exit 0
+            fi
+          done
+          echo "Failed to download a valid NUP after three attempts" >&2
+          exit 1
       - name: Install build dependencies
         script: |
           set -euo pipefail
